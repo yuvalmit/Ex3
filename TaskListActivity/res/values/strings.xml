@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="app_name">2 do</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_task_list">מה יש לעשות?</string>
+    <string name="button">press me</string>
+    <string name="buttonAdd">הוסף משימה</string>
+    <string name="AddTaskLabel">משימה</string>
+    <string name="task">משימה</string>
+    <string name="discription">תאור</string>
+    <string name="addbutton">הוסף</string>
+    <string name="removebutton">Remove selected</string>
+    <string name="tashnamehint">שם המשימה</string>
+    <string name="taskdischint">תאור המשימה</string>
+    <string name="delTask">מחק</string>
+    <string name="DatePicker">בחר תאריך סיום</string>
+    <string name="DateLabel">ברירת המחדל שבוע מעכשיו</string>
+
+</resources>
