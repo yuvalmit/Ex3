@@ -8,9 +8,13 @@ import java.util.Comparator;
 public class TaskArry
 {
 	private static TaskArry instance ;
-	private ArrayList<TaskItem> theList = new ArrayList<TaskItem>();
+	private ArrayList<TaskItem> theList;
+	
 
-	private TaskArry(){}
+	private TaskArry()
+	{
+		theList = new ArrayList<TaskItem>();
+	}
 
 	public static TaskArry getInstance()
 	{
