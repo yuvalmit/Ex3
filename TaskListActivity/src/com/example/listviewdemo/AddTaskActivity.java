@@ -93,7 +93,7 @@ public class AddTaskActivity extends Activity
 		
 		});
 
-		adapter = new taskListAdapter(this, TaskArry.getInstance());
+		adapter = new taskListAdapter(this, TaskArry.getInstance(this));
 		setCurrentDateOnView();
 		addBT.setOnClickListener(new OnClickListener()
 		{

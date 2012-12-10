@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 
 public class TaskItem implements Comparable<TaskItem>
 {
+	private int id;
 	private String taskName;
 	private String taskDescription;
 	private Date taskCreateDate;
@@ -81,5 +82,14 @@ public class TaskItem implements Comparable<TaskItem>
 		      return 0;
 		
 		return getTaskCreateDate().compareTo(obj.getTaskCreateDate());
+	}
+	
+	public int getId()
+	{
+		return id;
+	}
+	public void setId(int id)
+	{
+		this.id = id;
 	}
 }

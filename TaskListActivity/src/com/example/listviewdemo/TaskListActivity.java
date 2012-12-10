@@ -17,10 +17,10 @@ public class TaskListActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		final taskListAdapter adapter = new taskListAdapter(this,
-				TaskArry.getInstance());
+		final taskListAdapter adapter = new taskListAdapter(this, TaskArry.getInstance(this));
 		final ListView lv1 = (ListView) findViewById(R.id.listView1);
-		lv1.setAdapter(adapter);
+		lv1.setAdapter(adapter);	
+        
 		Button addTask = (Button) findViewById(R.id.addTaskButtonMain);
 		addTask.setOnClickListener(new OnClickListener()
 		{
@@ -40,7 +40,7 @@ public class TaskListActivity extends Activity
 	{
 		super.onResume();
 		final ListView lv1 = (ListView) findViewById(R.id.listView1);
-		lv1.setAdapter(new taskListAdapter(this, TaskArry.getInstance()));
+		lv1.setAdapter(new taskListAdapter(this, TaskArry.getInstance(this)));
 	}
 
 	@Override
