@@ -3,9 +3,11 @@ package com.example.listviewdemo;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,6 +25,7 @@ public class taskListAdapter extends BaseAdapter
 {
 	TaskArry myList;
 	private LayoutInflater l_Inflater;
+	private Context adapterContext;
 
 	static class ViewHolder
 	{
@@ -35,10 +38,10 @@ public class taskListAdapter extends BaseAdapter
 
 	public taskListAdapter(Context context, TaskArry task_details)
 	{
-
+		adapterContext = context;
 		myList = task_details;
 		myList.sortByDate(2);
-		l_Inflater = LayoutInflater.from(context);
+		l_Inflater = LayoutInflater.from(adapterContext);
 
 	}
 
@@ -75,13 +78,25 @@ public class taskListAdapter extends BaseAdapter
 			//holder.txt_taskDateCreate = (TextView) convertView.findViewById(R.id.createdate);
 			holder.txt_taskDateEnd = (TextView) convertView.findViewById(R.id.enddate);
 			holder.delTask = (Button) convertView.findViewById(R.id.delTask);
+			holder.delTask.setOnClickListener(new OnClickListener()
+			{
+				public void onClick(View v)
+				{
+					int pos = (Integer) v.getTag();
+					TaskArry.getInstance(adapterContext).delItem(pos);
+					notifyDataSetChanged();
+
+				}
+			});
 			convertView.setTag(holder);
+			
 			convertView.setOnTouchListener(new OnTouchListener()
 			{
 				
 
 				public boolean onTouch(View v, MotionEvent event)
 				{
+				
 					float oldX = event.getHistoricalX(0);
 					final int DELTA = 30;
 					switch (event.getAction())
@@ -125,19 +140,17 @@ public class taskListAdapter extends BaseAdapter
 		holder.txt_taskName.setText(myList.getItem(position).getTaskName());
 		holder.txt_taskDescription.setText(myList.getItem(position).getTaskDescription());
 		//holder.txt_taskDateCreate.setText(sdf.format(myList.getItem(position).getTaskCreateDate()));
-		holder.txt_taskDateEnd.setText("תאריך אחרון לביצוע: "+sdf.format(myList.getItem(position).getTaskEndDate().getTime()));
+		holder.txt_taskDateEnd.setText("תאריך אחרון לביצוע: "+sdf.format(new Date( myList.getItem(position).getTaskEndDate())));
 		holder.delTask.getBackground().setColorFilter(new LightingColorFilter(0xFF0000, 0x000000))   ;
 		holder.delTask.setVisibility(View.INVISIBLE);
-		holder.delTask.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				myList.delItem(position);
-				notifyDataSetChanged();
-
-			}
-		});
-
+		holder.delTask.setTag(position);
+		/*if(position % 2 != 0)
+			convertView.setBackgroundColor(Color.argb(150, 204, 255, 150));
+		else
+			convertView.setBackgroundColor(Color.argb(150, 204, 255, 250));*/
+		
+		convertView.setBackgroundColor(Color.argb(255,50+ position*(150/getCount()) ,50+ position*(150/getCount()), 255));
+		//convertView.setBackgroundResource(R.drawable.roundcorners);
 		return convertView;
 
 	}

@@ -1,8 +1,6 @@
 package com.example.listviewdemo;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -30,7 +28,7 @@ public class AddTaskActivity extends Activity
 	private int day;
 	
 	static final int DATE_DIALOG_ID = 999;
-
+	
 	
 	
 	@Override
@@ -104,7 +102,11 @@ public class AddTaskActivity extends Activity
 				TaskItem obj = new TaskItem();
 				obj.setTaskName(addText.getText().toString());
 				obj.setTaskDescription(addDis.getText().toString());
-				obj.setTaskEndDate(new  GregorianCalendar (endDate.getYear(),endDate.getMonth(),endDate.getDayOfMonth(),9,0,0));
+					long endTime;
+					final Calendar cal = Calendar.getInstance();
+					cal.set(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(), 9, 0, 0);
+					endTime = cal.getTimeInMillis();
+				obj.setTaskEndDate(endTime);
 				adapter.addItem(obj);
 				// return and recreate task list activity
 				/*

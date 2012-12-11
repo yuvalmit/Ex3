@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:background="#BA9629" >
+    android:background="#7D7D7D" >
 
     <ListView
         android:id="@+id/listView1"
@@ -12,7 +12,10 @@
         android:layout_below="@+id/addTaskButtonMain"
         android:layout_centerHorizontal="false"
         tools:listitem="@android:layout/test_list_item"
-        android:layout_gravity="right" >
+        android:layout_gravity="right"
+        android:divider="#E0E0E0"
+        android:dividerHeight="1dp"
+        android:background="#7D7D7D"  >
 
     </ListView>
 

@@ -1,9 +1,16 @@
 package com.example.listviewdemo;
 
+import com.example.listviewdemo.progressbar.myProgressBar;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.view.*;
 import android.view.View.*;
 import android.widget.ListView;
@@ -11,13 +18,16 @@ import android.view.View;
 
 public class TaskListActivity extends Activity
 {
-
+	myProgressBar myBar = new myProgressBar();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		final taskListAdapter adapter = new taskListAdapter(this, TaskArry.getInstance(this));
+		
+		
 		final ListView lv1 = (ListView) findViewById(R.id.listView1);
 		lv1.setAdapter(adapter);	
         
@@ -34,8 +44,11 @@ public class TaskListActivity extends Activity
 			}
 
 		});
+		
 	}
-
+	
+	
+		    
 	public void onResume()
 	{
 		super.onResume();
@@ -49,4 +62,8 @@ public class TaskListActivity extends Activity
 		getMenuInflater().inflate(R.menu.activity_task_list, menu);
 		return true;
 	}
+	
+	
+            
+	
 }

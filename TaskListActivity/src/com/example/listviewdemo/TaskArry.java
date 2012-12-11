@@ -18,19 +18,22 @@ public class TaskArry
 
 	private TaskArry()
 	{
-		for(int i=0; i < db.getTaskCount(); i++)
-			theList.add(db.getTask(i));
+		//for(int i=0; i < db.getTaskCount(); i++)
+			//theList.add(db.getTask(i));
+		theList = db.getAllTask();
 	}
 
 	public static TaskArry getInstance(Context context)
 	{
 		if(instance == null)
 		{
-			db = new DatabaseHandler(context);
+			db = DatabaseHandler.getInstance(context);
 			instance = new TaskArry();
 		}
 		return instance;
 	}
+	
+
 	
 	public void addItem(String name, String dis)
 	{
@@ -52,8 +55,9 @@ public class TaskArry
 	
 	public void delItem(int index)
 	{
-		 theList.remove(index);
+		
 		 db.deleteTask(getItem(index));
+		 theList.remove(index);
 	}
 	
 	public int getSize()

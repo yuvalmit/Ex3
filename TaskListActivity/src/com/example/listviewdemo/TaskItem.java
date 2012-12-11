@@ -1,33 +1,25 @@
 package com.example.listviewdemo;
 
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 
 public class TaskItem implements Comparable<TaskItem>
 {
+	
+
 	private int id;
 	private String taskName;
 	private String taskDescription;
-	private Date taskCreateDate;
-	private Calendar taskEndDate;
+	private Long taskCreateDate = (long) 0;
+	private Long taskEndDate = (long) 0 ;
 
-	public Calendar getTaskEndDate()
-	{
-		return taskEndDate;
-	}
-	public void setTaskEndDate()
-	{
-		this.taskEndDate = new GregorianCalendar();
-	}
-	public void setTaskEndDate(Calendar Calendar)
+	
+	public void setTaskEndDate(long timeInMilli)
 	{
 		
-		this.taskEndDate = Calendar;
+		this.taskEndDate = timeInMilli;
 	}
-	public TaskItem(String name, String dis)
+	public TaskItem( String name, String dis)
 	{	
 		setTaskName(name);
 		setTaskDescription(dis);
@@ -65,7 +57,7 @@ public class TaskItem implements Comparable<TaskItem>
 	{
 		this.taskDescription = taskDescription;
 	}
-	public Date getTaskCreateDate() 
+	public Long getTaskCreateDate() 
 	{
 		return taskCreateDate;
 	}
@@ -73,12 +65,23 @@ public class TaskItem implements Comparable<TaskItem>
 	public void setTaskCreateDate()
 	{
 		
-		this.taskCreateDate = new Date(System.currentTimeMillis());
+		this.taskCreateDate = System.currentTimeMillis();
 		
 	}
+	
+	public Long getTaskEndDate()
+	{
+		return taskEndDate;
+	}
+	
+	public void setTaskEndDate()
+	{
+		this.taskEndDate =  System.currentTimeMillis();
+	}
+	
 	public int compareTo(TaskItem obj) 
 	{
-		if (getTaskCreateDate() == null || obj.getTaskCreateDate() == null)
+		if (getTaskCreateDate() == 0 || obj.getTaskCreateDate() == 0)
 		      return 0;
 		
 		return getTaskCreateDate().compareTo(obj.getTaskCreateDate());

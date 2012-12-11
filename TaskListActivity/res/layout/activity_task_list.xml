@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    >
+    android:background="@drawable/roundcorners" >
 
     
     
@@ -36,6 +36,9 @@
 	    android:layout_alignParentRight="true"
 	    android:layout_alignParentTop="true"
 	    android:text="@string/delTask"
-	    android:textColor="#FFFFFF" />
+	    android:textColor="#FFFFFF"
+	     />
+	
+	
 
 </RelativeLayout>

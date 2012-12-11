@@ -1,7 +1,6 @@
 package com.example.listviewdemo.DB;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 import com.example.listviewdemo.TaskItem;
 
@@ -16,7 +15,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 {
 
 	// Database Version
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 5;
 
 	// Database Name
 	private static final String DATABASE_NAME = "taskManager";
@@ -30,10 +29,21 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	private static final String KEY_TASKDIS = "discription";
 	private static final String KEY_TASKCREATE = "creatdate";
 	private static final String KEY_ENDTASK = "enddate";
+	
+	private static DatabaseHandler instance;
 
-	public DatabaseHandler(Context context)
+	private DatabaseHandler(Context context)
 	{
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
+	
+	public static DatabaseHandler getInstance(Context context)
+	{
+		if (instance == null)
+		{
+			instance = new DatabaseHandler(context);
+		}
+		return instance;
 	}
 
 	@Override
@@ -46,17 +56,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		Log.d("DB","created");
 		
 		 
-	        /**
-	         * CRUD Operations
-	         * */
-	        // Inserting Contacts
-	        Log.d("DB", "Inserting ..");
-	        addTask(new TaskItem("Ravi", "9100000000"));
-	        addTask(new TaskItem("Srinivas", "9199999999"));
-	        addTask(new TaskItem("Tommy", "9522222222"));
-	        addTask(new TaskItem("Karthik", "9533333333"));
-	        Log.d("DB", "Done Inserting ..");
-
 	}
 
 	@Override
@@ -75,10 +74,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
+		
 		values.put(KEY_TASKNAME, item.getTaskName()); // task Name
-		values.put(KEY_TASKDIS, item.getTaskDescription()); // task discription
-		//values.put(KEY_TASKCREATE, item.getTaskCreateDate().toString()); 	// create date
-		//values.put(KEY_ENDTASK, item.getTaskEndDate().toString());	// task end	 date													// date
+		values.put(KEY_TASKDIS, item.getTaskDescription()); // task description
+		values.put(KEY_TASKCREATE, item.getTaskCreateDate().toString()); 	// create date
+		values.put(KEY_ENDTASK, item.getTaskEndDate().toString());	// task end	 date													// date
 
 		// Inserting Row
 		db.insert(TABLE_CONTACTS, null, values);
@@ -88,9 +88,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		
 	}
 
-	
-	
-	
 	/*make get all properties*/
 	public TaskItem getTask(int id)
 	{
@@ -119,7 +116,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
 
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
@@ -131,10 +128,12 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				item.setId(Integer.parseInt(cursor.getString(0)));
 				item.setTaskName(cursor.getString(1));
 				item.setTaskDescription(cursor.getString(2));
-				item.setTaskEndDate(new GregorianCalendar(Integer
-						.parseInt(cursor.getString(4).substring(0, 1)), Integer
-						.parseInt(cursor.getString(4).substring(3, 4)), Integer
-						.parseInt(cursor.getString(4).substring(6, 7)), 9, 0, 0));
+				item.setTaskCreateDate();
+				item.setTaskEndDate();
+				//item.setTaskEndDate(new GregorianCalendar(Integer
+						//.parseInt(cursor.getString(4).substring(0, 1)), Integer
+						//.parseInt(cursor.getString(4).substring(3, 4)), Integer
+						//.parseInt(cursor.getString(4).substring(6, 7)), 9, 0, 0));
 				// Adding contact to list
 				tasktList.add(item);
 				
@@ -166,6 +165,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	
 	public void deleteTask(TaskItem item) 
 	{
+		Log.d("DB","del");
 	    SQLiteDatabase db = this.getWritableDatabase();
 	    db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
 	            new String[] { String.valueOf(item.getId()) });
