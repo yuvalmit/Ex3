@@ -5,14 +5,10 @@ package com.example.listviewdemo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -35,12 +31,12 @@ public class taskListAdapter extends BaseAdapter
 		TextView txt_taskDateEnd;
 		Button delTask;
 	}
-
+	
+	
 	public taskListAdapter(Context context, TaskArry task_details)
 	{
 		adapterContext = context;
 		myList = task_details;
-		myList.sortByDate(2);
 		l_Inflater = LayoutInflater.from(adapterContext);
 
 	}
@@ -67,94 +63,90 @@ public class taskListAdapter extends BaseAdapter
 
 	public View getView(final int position, View convertView, ViewGroup parent)
 	{
-		final ViewHolder holder;
-
-		if (convertView == null)
+		switch(getItemViewType(position))
 		{
-			convertView = l_Inflater.inflate(R.layout.activity_task_list, null);
-			holder = new ViewHolder();
-			holder.txt_taskName = (TextView) convertView.findViewById(R.id.name);
-			holder.txt_taskDescription = (TextView) convertView.findViewById(R.id.dis);
-			//holder.txt_taskDateCreate = (TextView) convertView.findViewById(R.id.createdate);
-			holder.txt_taskDateEnd = (TextView) convertView.findViewById(R.id.enddate);
-			holder.delTask = (Button) convertView.findViewById(R.id.delTask);
-			holder.delTask.setOnClickListener(new OnClickListener()
+		case 1:
+			final ViewHolder holder;
+			if (convertView == null)
 			{
-				public void onClick(View v)
+				convertView = l_Inflater.inflate(R.layout.activity_task_list, null);
+				holder = new ViewHolder();
+				holder.txt_taskName = (TextView) convertView.findViewById(R.id.name);
+				holder.txt_taskDescription = (TextView) convertView.findViewById(R.id.dis);
+				holder.txt_taskDateEnd = (TextView) convertView.findViewById(R.id.enddate);
+				holder.delTask = (Button) convertView.findViewById(R.id.delTask);
+				holder.delTask.setOnClickListener(new OnClickListener()
 				{
-					int pos = (Integer) v.getTag();
-					TaskArry.getInstance(adapterContext).delItem(pos);
-					notifyDataSetChanged();
-
-				}
-			});
-			convertView.setTag(holder);
-			
-			convertView.setOnTouchListener(new OnTouchListener()
-			{
-				
-
-				public boolean onTouch(View v, MotionEvent event)
-				{
-				
-					float oldX = event.getHistoricalX(0);
-					final int DELTA = 30;
-					switch (event.getAction())
+					public void onClick(View v)
 					{
-					case MotionEvent.ACTION_DOWN:
-						oldX = event.getX();
-						break;
-					
-					case MotionEvent.ACTION_UP:
-
-						if (event.getX() - oldX > DELTA/* && event.getX() > oldX*/)
-						{
-							holder.delTask.setVisibility(View.INVISIBLE);
-							holder.txt_taskName.setPadding(0, 0, 0, 0);
-							holder.txt_taskDescription.setPadding(0, 0, 0, 0);
-							//showToastNotification("invisible "+event.getX()+","+oldX);
-							return false;
-						} else if (event.getX() - oldX < DELTA/* && event.getX() < oldX*/)
-						{
-							holder.delTask.setVisibility(View.VISIBLE);
-							holder.txt_taskName.setPadding(0, 0, 80, 0);
-							holder.txt_taskDescription.setPadding(0, 0, 80, 0);
-							//showToastNotification("visible "+event.getX()+","+oldX);
-							
-							return false;
-						}
-						
-						
-						break;
+						int pos = (Integer) v.getTag();
+						TaskArry.getInstance(adapterContext).delItem(pos);
+						notifyDataSetChanged();
+	
 					}
-					return true;
-				}
-			});
+				});
+				convertView.setTag(holder);
+				
+			} 
+			else
+			{
+				holder = (ViewHolder) convertView.getTag();
+			}
 			
-		} 
-		else
-		{
-			holder = (ViewHolder) convertView.getTag();
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-		holder.txt_taskName.setText(myList.getItem(position).getTaskName());
-		holder.txt_taskDescription.setText(myList.getItem(position).getTaskDescription());
-		//holder.txt_taskDateCreate.setText(sdf.format(myList.getItem(position).getTaskCreateDate()));
-		holder.txt_taskDateEnd.setText("תאריך אחרון לביצוע: "+sdf.format(new Date( myList.getItem(position).getTaskEndDate())));
-		holder.delTask.getBackground().setColorFilter(new LightingColorFilter(0xFF0000, 0x000000))   ;
-		holder.delTask.setVisibility(View.INVISIBLE);
-		holder.delTask.setTag(position);
-		/*if(position % 2 != 0)
-			convertView.setBackgroundColor(Color.argb(150, 204, 255, 150));
-		else
-			convertView.setBackgroundColor(Color.argb(150, 204, 255, 250));*/
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+			holder.txt_taskName.setText(myList.getItem(position).getTaskName());
+			holder.txt_taskDateEnd.setText("לביצוע עד: "+sdf.format(new Date( myList.getItem(position).getTaskEndDate())));
+			holder.delTask.setTag(position);
+			holder.delTask.setBackgroundResource(R.drawable.round1);
+			//make color gradient
+			convertView.setBackgroundColor(Color.argb(255, position*(255/getCount()/2) ,position*(255/getCount()/2) , 255));
+			return convertView;
+		case 0:
+			final ViewHolder labelHolder;
+			if (convertView == null)
+			{
+				convertView = l_Inflater.inflate(R.layout.activity_task_list_label, null);
+				labelHolder = new ViewHolder();
+				labelHolder.txt_taskName = (TextView) convertView.findViewById(R.id.textViewLabel);
+				
+				convertView.setTag(labelHolder);
+				
+			} 
+			else
+			{
+				labelHolder = (ViewHolder) convertView.getTag();
+			}
+			
 		
-		convertView.setBackgroundColor(Color.argb(255,50+ position*(150/getCount()) ,50+ position*(150/getCount()), 255));
-		//convertView.setBackgroundResource(R.drawable.roundcorners);
-		return convertView;
+			labelHolder.txt_taskName.setText(myList.getItem(position).getTaskName());
+			labelHolder.txt_taskName.setBackgroundColor(Color.argb(155, 0 , 0 , 255));
+			
+			
+			
+			return convertView;
+		default:
+			return null;
+		}
+		
+		
 
 	}
 	
+	public int getViewTypeCount() 
+	{
+	    return 2;
+	}
+	
+	
+	public int getItemViewType(int position) 
+	{
+
+	    //is a label
+	    if (myList.getItem(position).getIsLable() == true) return 0;
+
+	    //is a regular item
+	    else return 1;
+	}
 	
 	
 

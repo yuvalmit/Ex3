@@ -15,7 +15,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 {
 
 	// Database Version
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 6;
 
 	// Database Name
 	private static final String DATABASE_NAME = "taskManager";
@@ -51,7 +51,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	{
 		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_TASKNAME + " TEXT,"
-				+ KEY_TASKDIS + " TEXT," + KEY_TASKCREATE + " TEXT," + KEY_ENDTASK + " TEXT" + ")";
+				+ KEY_TASKDIS + " TEXT," + KEY_TASKCREATE + " INTEGER," + KEY_ENDTASK + " INTEGER" + ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 		Log.d("DB","created");
 		
@@ -77,8 +77,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		
 		values.put(KEY_TASKNAME, item.getTaskName()); // task Name
 		values.put(KEY_TASKDIS, item.getTaskDescription()); // task description
-		values.put(KEY_TASKCREATE, item.getTaskCreateDate().toString()); 	// create date
-		values.put(KEY_ENDTASK, item.getTaskEndDate().toString());	// task end	 date													// date
+		values.put(KEY_TASKCREATE, item.getTaskCreateDate()); 	// create date
+		values.put(KEY_ENDTASK, item.getTaskEndDate());	// task end	 date													// date
 
 		// Inserting Row
 		db.insert(TABLE_CONTACTS, null, values);
@@ -128,12 +128,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				item.setId(Integer.parseInt(cursor.getString(0)));
 				item.setTaskName(cursor.getString(1));
 				item.setTaskDescription(cursor.getString(2));
-				item.setTaskCreateDate();
-				item.setTaskEndDate();
-				//item.setTaskEndDate(new GregorianCalendar(Integer
-						//.parseInt(cursor.getString(4).substring(0, 1)), Integer
-						//.parseInt(cursor.getString(4).substring(3, 4)), Integer
-						//.parseInt(cursor.getString(4).substring(6, 7)), 9, 0, 0));
+				item.setTaskCreateDate(cursor.getLong(3));
+				item.setTaskEndDate(cursor.getLong(4));
+				
 				// Adding contact to list
 				tasktList.add(item);
 				

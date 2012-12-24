@@ -2,18 +2,21 @@ package com.example.listviewdemo;
 
 import java.util.Calendar;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class AddTaskActivity extends Activity
 {
@@ -22,6 +25,7 @@ public class AddTaskActivity extends Activity
 	DatePicker endDate;
 	Button btnChangeDate;
 	taskListAdapter adapter;
+	CheckBox check;
 	
 	private int year;
 	private int month;
@@ -38,46 +42,12 @@ public class AddTaskActivity extends Activity
 		
 		View v = getLayoutInflater().inflate(R.layout.activity_add_task,null);
 		setContentView(v);		
-		v.setOnTouchListener(new OnTouchListener()
-		{
-			
-			public boolean onTouch(View v, MotionEvent event)
-			{
-				float oldX = event.getHistoricalX(0);
-				final int DELTA = 30;
-				
-				switch (event.getAction())
-				{
-				case MotionEvent.ACTION_DOWN:
-					oldX = event.getX();
-					break;
-				
-				case MotionEvent.ACTION_UP:
-					if (event.getX() - oldX > DELTA/* && event.getX() > oldX*/)
-					{
-						showToastNotification("Add more task!!");
-						
-					} else if (event.getX() - oldX < DELTA/* && event.getX() < oldX*/)
-					{
-						onBackPressed();
-						showToastNotification("left");
-					}
-					
-					
-					break;
-				}
-				
-				return true;
-			}
-
-			
-		 });
-		
 		Button addBT = (Button) findViewById(R.id.buttonAdd);
 		addText = (EditText) findViewById(R.id.editTextTaskName);
 		addDis = (EditText) findViewById(R.id.editTextTaskDisc);
 		endDate = (DatePicker) findViewById(R.id.datePicker1);
 		btnChangeDate = (Button) findViewById(R.id.btnChangeDate);
+		check = (CheckBox) findViewById(R.id.checkBox1);
 		btnChangeDate.setOnClickListener(new OnClickListener() 
 		{
 
@@ -90,7 +60,7 @@ public class AddTaskActivity extends Activity
 			 
 		
 		});
-
+		
 		adapter = new taskListAdapter(this, TaskArry.getInstance(this));
 		setCurrentDateOnView();
 		addBT.setOnClickListener(new OnClickListener()
@@ -117,19 +87,20 @@ public class AddTaskActivity extends Activity
 				// clear data and use onresume when back button is pressed
 				addText.setText("");
 				addDis.setText("");
+				if (check.isChecked())
+				{
+					alarm();
+				}
+				check.setChecked(false);
 
 			}
 		});
-	
+		
 		endDate.setVisibility(View.INVISIBLE);
 		
 	}
 	
-	private void showToastNotification(String string)
-	{
-		Toast.makeText(this,string, Toast.LENGTH_SHORT).show();
-		
-	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -177,6 +148,18 @@ public class AddTaskActivity extends Activity
  
 		}
 	};
+	
+	private void alarm()
+	{
+		Log.d("juv","checked1");
+		Intent intent = new Intent("com.example.listview.BROADCAST");
+		intent.putExtra("juv", 0);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(TaskListActivity.context, 0, intent, 0);
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()	+ 2000, pendingIntent);
+		Log.d("juv","checked2");
+	}
+
 
 	
 

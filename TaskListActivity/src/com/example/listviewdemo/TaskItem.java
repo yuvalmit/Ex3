@@ -12,13 +12,10 @@ public class TaskItem implements Comparable<TaskItem>
 	private String taskDescription;
 	private Long taskCreateDate = (long) 0;
 	private Long taskEndDate = (long) 0 ;
+	private Boolean isLable = false;
 
 	
-	public void setTaskEndDate(long timeInMilli)
-	{
-		
-		this.taskEndDate = timeInMilli;
-	}
+	
 	public TaskItem( String name, String dis)
 	{	
 		setTaskName(name);
@@ -35,24 +32,19 @@ public class TaskItem implements Comparable<TaskItem>
 		setTaskEndDate(obj.getTaskEndDate());
 		
 	}
-
 	public TaskItem() {}
-
 	public String getTaskName()
 	{
 		return taskName;
 	}
-
 	public void setTaskName(String taskName)
 	{
 		this.taskName = taskName;
 	}
-
 	public String getTaskDescription()
 	{
 		return taskDescription;
 	}
-
 	public void setTaskDescription(String taskDescription)
 	{
 		this.taskDescription = taskDescription;
@@ -61,24 +53,31 @@ public class TaskItem implements Comparable<TaskItem>
 	{
 		return taskCreateDate;
 	}
-	
 	public void setTaskCreateDate()
 	{
 		
 		this.taskCreateDate = System.currentTimeMillis();
 		
 	}
-	
+	public void setTaskCreateDate(long timeInMilli)
+	{
+		
+		this.taskCreateDate = timeInMilli;
+		
+	}
 	public Long getTaskEndDate()
 	{
 		return taskEndDate;
 	}
-	
 	public void setTaskEndDate()
 	{
 		this.taskEndDate =  System.currentTimeMillis();
 	}
-	
+	public void setTaskEndDate(long timeInMilli)
+	{
+		
+		this.taskEndDate = timeInMilli;
+	}
 	public int compareTo(TaskItem obj) 
 	{
 		if (getTaskCreateDate() == 0 || obj.getTaskCreateDate() == 0)
@@ -86,7 +85,6 @@ public class TaskItem implements Comparable<TaskItem>
 		
 		return getTaskCreateDate().compareTo(obj.getTaskCreateDate());
 	}
-	
 	public int getId()
 	{
 		return id;
@@ -94,5 +92,13 @@ public class TaskItem implements Comparable<TaskItem>
 	public void setId(int id)
 	{
 		this.id = id;
+	}
+	public Boolean getIsLable()
+	{
+		return isLable;
+	}
+	public void setIsLable(Boolean isLable)
+	{
+		this.isLable = isLable;
 	}
 }

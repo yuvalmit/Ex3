@@ -21,6 +21,10 @@ public class TaskArry
 		//for(int i=0; i < db.getTaskCount(); i++)
 			//theList.add(db.getTask(i));
 		theList = db.getAllTask();
+		TaskItem item = new TaskItem("תזכורות","");
+		item.setIsLable(true);
+		item.setTaskCreateDate(System.currentTimeMillis()-86400000*365);
+		theList.add(item);
 	}
 
 	public static TaskArry getInstance(Context context)
@@ -64,7 +68,8 @@ public class TaskArry
 	{
 		return theList.size();
 	}
-	public void sortByDate(final int dir)//1-new to old, 2-old to new, default new to old
+	
+	public void sortByDate(final int dir)//2-new to old, 1-old to new, default old to new
 	{ 
 		Collections.sort(theList, new Comparator<TaskItem>() 
 			{
