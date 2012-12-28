@@ -8,10 +8,11 @@
         android:targetSdkVersion="15" />
 
     <application
-       
+       	
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+         
         <activity
             android:name=".TaskListActivity"
             android:label="@string/title_activity_task_list" >
@@ -25,11 +26,12 @@
             android:name=".AddTaskActivity"
             android:label="@string/title_activity_task_list" >
         </activity>
-        <reciver android:name=".ReminderBroadCastReceiver">
+        <receiver android:name="ReminderBroadCastReceiver" >
             <intent-filter>
-                <action android:name="com.example.listview.BROADCAST" />
+                <action android:name="com.example.listview.BROADCAST" >
+                </action>
             </intent-filter>
-        </reciver>
+        </receiver>
     </application>
 
 </manifest>

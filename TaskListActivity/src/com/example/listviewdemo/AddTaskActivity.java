@@ -153,8 +153,7 @@ public class AddTaskActivity extends Activity
 	{
 		Log.d("juv","checked1");
 		Intent intent = new Intent("com.example.listview.BROADCAST");
-		intent.putExtra("juv", 0);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(TaskListActivity.context, 0, intent, 0);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(TaskListActivity.context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()	+ 2000, pendingIntent);
 		Log.d("juv","checked2");
