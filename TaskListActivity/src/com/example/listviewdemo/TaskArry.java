@@ -18,13 +18,13 @@ public class TaskArry
 
 	private TaskArry()
 	{
-		//for(int i=0; i < db.getTaskCount(); i++)
-			//theList.add(db.getTask(i));
+		
 		theList = db.getAllTask();
 		TaskItem item = new TaskItem("תזכורות","");
 		item.setIsLable(true);
 		item.setTaskCreateDate(System.currentTimeMillis()-86400000*365);
 		theList.add(item);
+		
 	}
 
 	public static TaskArry getInstance(Context context)

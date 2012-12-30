@@ -6,7 +6,6 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,12 +84,13 @@ public class AddTaskActivity extends Activity
 				 * startActivity(intent);
 				 */
 				// clear data and use onresume when back button is pressed
-				addText.setText("");
-				addDis.setText("");
+				
 				if (check.isChecked())
 				{
-					alarm();
+					alarm(addText.getText().toString());
 				}
+				addText.setText("");
+				addDis.setText("");
 				check.setChecked(false);
 
 			}
@@ -149,10 +149,11 @@ public class AddTaskActivity extends Activity
 		}
 	};
 	
-	private void alarm()
+	private void alarm(String str)
 	{
 		Log.d("juv","checked1");
 		Intent intent = new Intent("com.example.listview.BROADCAST");
+		intent.putExtra("title", str);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(TaskListActivity.context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()	+ 2000, pendingIntent);

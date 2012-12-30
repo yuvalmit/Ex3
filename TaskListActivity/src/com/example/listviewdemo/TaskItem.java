@@ -13,6 +13,7 @@ public class TaskItem implements Comparable<TaskItem>
 	private Long taskCreateDate = (long) 0;
 	private Long taskEndDate = (long) 0 ;
 	private Boolean isLable = false;
+	private Boolean isAlarm = false;
 
 	
 	
@@ -100,5 +101,13 @@ public class TaskItem implements Comparable<TaskItem>
 	public void setIsLable(Boolean isLable)
 	{
 		this.isLable = isLable;
+	}
+	public Boolean getIsAlarm()
+	{
+		return isAlarm;
+	}
+	public void setIsAlarm(Boolean isAlarm)
+	{
+		this.isAlarm = isAlarm;
 	}
 }
