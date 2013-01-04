@@ -4,8 +4,11 @@
     android:versionName="2.0" >
 
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="15"
         android:targetSdkVersion="17" />
+    
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
 
@@ -33,6 +36,7 @@
                 </action>
             </intent-filter>
         </receiver>
+        <service android:name="com.example.listviewdemo.service.GetTaskFromWebService"></service>
     </application>
 
 </manifest>

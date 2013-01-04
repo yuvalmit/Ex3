@@ -50,6 +50,11 @@ public class TaskArry
 		theList.add(new TaskItem(obj));
 		db.addTask(new TaskItem(obj));
 	}
+	public void addItemDB(String name, String dis)
+	{
+		
+		db.addTask(new TaskItem(name,dis));
+	}
 	
 	public TaskItem getItem(int index)
 	{

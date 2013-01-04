@@ -1,6 +1,15 @@
 package com.example.listviewdemo;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.example.listviewdemo.web.GetTaskFromWeb;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -25,6 +34,7 @@ public class AddTaskActivity extends Activity
 	Button btnChangeDate;
 	taskListAdapter adapter;
 	CheckBox check;
+	Button btnRandom;
 	
 	private int year;
 	private int month;
@@ -33,7 +43,7 @@ public class AddTaskActivity extends Activity
 	static final int DATE_DIALOG_ID = 999;
 	
 	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -46,6 +56,7 @@ public class AddTaskActivity extends Activity
 		addDis = (EditText) findViewById(R.id.editTextTaskDisc);
 		endDate = (DatePicker) findViewById(R.id.datePicker1);
 		btnChangeDate = (Button) findViewById(R.id.btnChangeDate);
+		btnRandom = (Button) findViewById(R.id.button1);
 		check = (CheckBox) findViewById(R.id.checkBox1);
 		btnChangeDate.setOnClickListener(new OnClickListener() 
 		{
@@ -62,6 +73,44 @@ public class AddTaskActivity extends Activity
 		
 		adapter = new taskListAdapter(this, TaskArry.getInstance(this));
 		setCurrentDateOnView();
+		btnRandom.setOnClickListener(new OnClickListener()
+		{
+
+			public void onClick(View v)
+			{
+				
+				try
+				{
+					URL url = new URL( "http://mobile1-tasks-dispatcher.herokuapp.com/task/random" );
+					GetTaskFromWeb getWebTask = new GetTaskFromWeb();
+					getWebTask.execute( url );
+					JSONObject result = getWebTask.get();
+					addText.setText(result.getString("topic"));
+					addDis.setText(result.getString("description"));
+					Log.d("juv","asynctask started");
+				} 
+				catch (MalformedURLException e)
+				{
+					Log.d("juv","MalformedURLException");
+					
+				} 
+				catch (InterruptedException e)
+				{
+					Log.d("juv","InterruptedException");
+				} 
+				catch (ExecutionException e)
+				{
+					Log.d("juv","ExecutionException");
+					
+				} 
+				catch (JSONException e)
+				{
+					Log.d("juv","JSONException");
+				}
+				
+			}
+		
+		});
 		addBT.setOnClickListener(new OnClickListener()
 		{
 
@@ -158,6 +207,11 @@ public class AddTaskActivity extends Activity
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()	+ 2000, pendingIntent);
 		Log.d("juv","checked2");
+	}
+	
+	public void potpot(String str)
+	{
+		
 	}
 
 

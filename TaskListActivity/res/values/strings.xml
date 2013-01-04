@@ -15,5 +15,6 @@
     <string name="delTask">מחק</string>
     <string name="DatePicker">בחר תאריך סיום</string>
     <string name="DateLabel">ברירת המחדל שבוע מעכשיו</string>
+    <string name="webButton">Web</string>
 
 </resources>
