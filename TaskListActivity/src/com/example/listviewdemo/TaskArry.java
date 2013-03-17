@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import com.example.listviewdemo.DB.DatabaseHandler;
+
+
+
 
 import android.content.Context;
 
-import com.example.listviewdemo.DB.DatabaseHandler;
 
 
 public class TaskArry
